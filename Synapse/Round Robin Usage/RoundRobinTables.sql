@@ -1,4 +1,7 @@
 CREATE VIEW dbo.vRoundRobinTables
+/*View To Find Tables with Round Robin Distributions.
+A round-robin distributed table distributes table rows evenly across all distributions. 
+The assignment of rows to distributions is random*/
 AS
 WITH base
 AS
@@ -109,3 +112,4 @@ FROM base
 SELECT *
 FROM size
 ;
+
