@@ -11,5 +11,6 @@ JOIN    sys.[pdw_nodes_tables] nt     ON  nt.[name]               = mp.[physical
 JOIN    sys.[dm_pdw_nodes_db_column_store_row_group_physical_stats] rg      ON  rg.[object_id]     = nt.[object_id]
 			AND rg.[pdw_node_id]   = nt.[pdw_node_id]
             AND rg.[distribution_id]    = nt.[distribution_id]
+WHERE  rg.[total_rows] > 0 -- to avoid 'divide by zero' error
 GROUP BY sm.name, tb.name, rg.[object_id], index_id
 HAVING round((sum(deleted_rows)*100/(sum(rg.[total_rows]))),0) >=20 -- deleted records/nondeleted records is greater than 20%
