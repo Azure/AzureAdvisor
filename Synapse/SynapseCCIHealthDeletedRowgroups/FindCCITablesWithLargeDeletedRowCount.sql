@@ -12,4 +12,4 @@ JOIN    sys.[dm_pdw_nodes_db_column_store_row_group_physical_stats] rg      ON  
 			AND rg.[pdw_node_id]   = nt.[pdw_node_id]
             AND rg.[distribution_id]    = nt.[distribution_id]
 GROUP BY sm.name, tb.name, rg.[object_id], index_id
-HAVING round((sum(deleted_rows)*100/(sum(rg.[total_rows]))),0) >=20 -- deleted records/nondeleted records is greater than 20%
+HAVING CASE WHEN sum(rg.[total_rows]) = 0 THEN 0 ELSE round((sum(deleted_rows)*100/(sum(rg.[total_rows]))),0) END >=20 -- deleted records/nondeleted records is greater than 20%
